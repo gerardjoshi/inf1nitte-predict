@@ -1,6 +1,8 @@
 // F1 API Service - Fetches data from Jolpica F1 API (Ergast successor)
 // With fallback to mock data if API is unavailable
 
+import { getAll2025RaceResults } from './season2025Data';
+
 const API_BASE_URL = 'https://api.jolpi.ca/ergast/f1';
 
 // Cache for API responses
@@ -258,7 +260,7 @@ export const getPredictionData = async () => {
   } catch (error) {
     console.error('Error fetching prediction data:', error);
     // Return fallback data with 2024 Abu Dhabi qualifying
-    const recentRaces = await getFallbackRaceResults();
+    const recentRaces = getFallbackRaceResults();
     return {
       standings: getFallbackStandings(),
       constructorStandings: getFallbackConstructorStandings(),
@@ -399,76 +401,10 @@ function getFallbackNextRace() {
   };
 }
 
-async function getFallbackRaceResults() {
+function getFallbackRaceResults() {
   // Recent race results for prediction model - 2025 Season (including Abu Dhabi GP)
-  const { getAll2025RaceResults } = await import('./season2025Data');
   const seasonRaces = getAll2025RaceResults();
   return seasonRaces.slice(-5);
-  
-  // Legacy 2024 data (kept for reference)
-  /*
-  return [
-    {
-      raceName: 'Qatar Grand Prix',
-      round: '23',
-      date: '2024-12-01',
-      Results: [
-        { position: '1', Driver: { driverId: 'max_verstappen', code: 'VER' }, Constructor: { constructorId: 'red_bull' }, grid: '1', status: 'Finished' },
-        { position: '2', Driver: { driverId: 'leclerc', code: 'LEC' }, Constructor: { constructorId: 'ferrari' }, grid: '2', status: 'Finished' },
-        { position: '3', Driver: { driverId: 'piastri', code: 'PIA' }, Constructor: { constructorId: 'mclaren' }, grid: '3', status: 'Finished' },
-        { position: '4', Driver: { driverId: 'russell', code: 'RUS' }, Constructor: { constructorId: 'mercedes' }, grid: '4', status: 'Finished' },
-        { position: '5', Driver: { driverId: 'norris', code: 'NOR' }, Constructor: { constructorId: 'mclaren' }, grid: '5', status: 'Finished' },
-      ]
-    },
-    {
-      raceName: 'Las Vegas Grand Prix',
-      round: '22',
-      date: '2024-11-23',
-      Results: [
-        { position: '1', Driver: { driverId: 'russell', code: 'RUS' }, Constructor: { constructorId: 'mercedes' }, grid: '1', status: 'Finished' },
-        { position: '2', Driver: { driverId: 'hamilton', code: 'HAM' }, Constructor: { constructorId: 'mercedes' }, grid: '10', status: 'Finished' },
-        { position: '3', Driver: { driverId: 'sainz', code: 'SAI' }, Constructor: { constructorId: 'ferrari' }, grid: '2', status: 'Finished' },
-        { position: '4', Driver: { driverId: 'leclerc', code: 'LEC' }, Constructor: { constructorId: 'ferrari' }, grid: '4', status: 'Finished' },
-        { position: '5', Driver: { driverId: 'max_verstappen', code: 'VER' }, Constructor: { constructorId: 'red_bull' }, grid: '5', status: 'Finished' },
-      ]
-    },
-    {
-      raceName: 'Brazilian Grand Prix',
-      round: '21',
-      date: '2024-11-03',
-      Results: [
-        { position: '1', Driver: { driverId: 'max_verstappen', code: 'VER' }, Constructor: { constructorId: 'red_bull' }, grid: '17', status: 'Finished' },
-        { position: '2', Driver: { driverId: 'ocon', code: 'OCO' }, Constructor: { constructorId: 'alpine' }, grid: '3', status: 'Finished' },
-        { position: '3', Driver: { driverId: 'gasly', code: 'GAS' }, Constructor: { constructorId: 'alpine' }, grid: '4', status: 'Finished' },
-        { position: '4', Driver: { driverId: 'russell', code: 'RUS' }, Constructor: { constructorId: 'mercedes' }, grid: '6', status: 'Finished' },
-        { position: '5', Driver: { driverId: 'leclerc', code: 'LEC' }, Constructor: { constructorId: 'ferrari' }, grid: '5', status: 'Finished' },
-      ]
-    },
-    {
-      raceName: 'Mexico City Grand Prix',
-      round: '20',
-      date: '2024-10-27',
-      Results: [
-        { position: '1', Driver: { driverId: 'sainz', code: 'SAI' }, Constructor: { constructorId: 'ferrari' }, grid: '4', status: 'Finished' },
-        { position: '2', Driver: { driverId: 'norris', code: 'NOR' }, Constructor: { constructorId: 'mclaren' }, grid: '3', status: 'Finished' },
-        { position: '3', Driver: { driverId: 'leclerc', code: 'LEC' }, Constructor: { constructorId: 'ferrari' }, grid: '1', status: 'Finished' },
-        { position: '4', Driver: { driverId: 'hamilton', code: 'HAM' }, Constructor: { constructorId: 'mercedes' }, grid: '5', status: 'Finished' },
-        { position: '5', Driver: { driverId: 'russell', code: 'RUS' }, Constructor: { constructorId: 'mercedes' }, grid: '6', status: 'Finished' },
-      ]
-    },
-    {
-      raceName: 'United States Grand Prix',
-      round: '19',
-      date: '2024-10-20',
-      Results: [
-        { position: '1', Driver: { driverId: 'leclerc', code: 'LEC' }, Constructor: { constructorId: 'ferrari' }, grid: '1', status: 'Finished' },
-        { position: '2', Driver: { driverId: 'sainz', code: 'SAI' }, Constructor: { constructorId: 'ferrari' }, grid: '3', status: 'Finished' },
-        { position: '3', Driver: { driverId: 'max_verstappen', code: 'VER' }, Constructor: { constructorId: 'red_bull' }, grid: '2', status: 'Finished' },
-        { position: '4', Driver: { driverId: 'norris', code: 'NOR' }, Constructor: { constructorId: 'mclaren' }, grid: '4', status: 'Finished' },
-        { position: '5', Driver: { driverId: 'piastri', code: 'PIA' }, Constructor: { constructorId: 'mclaren' }, grid: '5', status: 'Finished' },
-      ]
-    },
-  ];
 }
 
 // Abu Dhabi Grand Prix historical data (Yas Marina Circuit)
