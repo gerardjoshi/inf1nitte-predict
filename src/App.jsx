@@ -20,6 +20,7 @@ import PredictionComparison from './components/PredictionComparison';
 import FeatureAnalysis from './components/FeatureAnalysis';
 import RaceInsights from './components/RaceInsights';
 import MadeWith from './components/MadeWith';
+import AbuDhabiComparison from './components/AbuDhabiComparison';
 
 import { getPredictionData } from './services/f1Api';
 import predictionModel from './services/predictionModel';
@@ -179,6 +180,13 @@ function App() {
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* Abu Dhabi GP 2025 Comparison - Main Element */}
+        {predictions.length > 0 && (
+          <Box sx={{ mb: 4 }}>
+            <AbuDhabiComparison predictions={predictions} />
+          </Box>
+        )}
 
         {/* Next Race Information */}
         {nextRace && <NextRaceInfo nextRace={nextRace} />}

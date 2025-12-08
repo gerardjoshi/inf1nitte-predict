@@ -258,10 +258,11 @@ export const getPredictionData = async () => {
   } catch (error) {
     console.error('Error fetching prediction data:', error);
     // Return fallback data with 2024 Abu Dhabi qualifying
+    const recentRaces = await getFallbackRaceResults();
     return {
       standings: getFallbackStandings(),
       constructorStandings: getFallbackConstructorStandings(),
-      recentRaces: getFallbackRaceResults(),
+      recentRaces,
       nextRace: getFallbackNextRace(),
       currentDrivers: [],
       circuitHistory: getFallbackAbuDhabiHistory(),
@@ -295,6 +296,7 @@ export const getDriverPhotoUrl = (driverId) => {
     'bortoleto': 'https://media.formula1.com/content/dam/fom-website/drivers/G/GABBOR01_Gabriel_Bortoleto/gabbor01.png.transform/1col/image.png',
     'hadjar': 'https://media.formula1.com/content/dam/fom-website/drivers/I/ISAHAD01_Isack_Hadjar/isahad01.png.transform/1col/image.png',
     'doohan': 'https://media.formula1.com/content/dam/fom-website/drivers/J/JACDOO01_Jack_Doohan/jacdoo01.png.transform/1col/image.png',
+    'colapinto': 'https://media.formula1.com/content/dam/fom-website/drivers/F/FRACOL01_Franco_Colapinto/fracol01.png.transform/1col/image.png',
   };
 
   return photoMap[driverId] || `https://via.placeholder.com/200x200/1a1a1a/e10600?text=${driverId?.substring(0, 3)?.toUpperCase() || 'F1'}`;
@@ -324,67 +326,87 @@ export const getTeamColor = (constructorId) => {
 // Used when API is unavailable
 
 function getFallbackStandings() {
-  // 2025 Season Standings (with updated driver lineups)
+  // 2025 Season Final Standings - Official Results
+  // Source: https://www.formula1.com/en/results/2025/drivers
   return [
-    { position: '1', points: '420', Driver: { driverId: 'max_verstappen', givenName: 'Max', familyName: 'Verstappen', nationality: 'Dutch', code: 'VER', permanentNumber: '1' }, Constructors: [{ constructorId: 'red_bull', name: 'Red Bull Racing' }] },
-    { position: '2', points: '380', Driver: { driverId: 'norris', givenName: 'Lando', familyName: 'Norris', nationality: 'British', code: 'NOR', permanentNumber: '4' }, Constructors: [{ constructorId: 'mclaren', name: 'McLaren' }] },
-    { position: '3', points: '355', Driver: { driverId: 'leclerc', givenName: 'Charles', familyName: 'Leclerc', nationality: 'Monegasque', code: 'LEC', permanentNumber: '16' }, Constructors: [{ constructorId: 'ferrari', name: 'Ferrari' }] },
-    { position: '4', points: '340', Driver: { driverId: 'piastri', givenName: 'Oscar', familyName: 'Piastri', nationality: 'Australian', code: 'PIA', permanentNumber: '81' }, Constructors: [{ constructorId: 'mclaren', name: 'McLaren' }] },
-    { position: '5', points: '290', Driver: { driverId: 'hamilton', givenName: 'Lewis', familyName: 'Hamilton', nationality: 'British', code: 'HAM', permanentNumber: '44' }, Constructors: [{ constructorId: 'ferrari', name: 'Ferrari' }] },
-    { position: '6', points: '250', Driver: { driverId: 'russell', givenName: 'George', familyName: 'Russell', nationality: 'British', code: 'RUS', permanentNumber: '63' }, Constructors: [{ constructorId: 'mercedes', name: 'Mercedes' }] },
-    { position: '7', points: '180', Driver: { driverId: 'tsunoda', givenName: 'Yuki', familyName: 'Tsunoda', nationality: 'Japanese', code: 'TSU', permanentNumber: '22' }, Constructors: [{ constructorId: 'red_bull', name: 'Red Bull Racing' }] },
-    { position: '8', points: '120', Driver: { driverId: 'alonso', givenName: 'Fernando', familyName: 'Alonso', nationality: 'Spanish', code: 'ALO', permanentNumber: '14' }, Constructors: [{ constructorId: 'aston_martin', name: 'Aston Martin' }] },
-    { position: '9', points: '95', Driver: { driverId: 'sainz', givenName: 'Carlos', familyName: 'Sainz', nationality: 'Spanish', code: 'SAI', permanentNumber: '55' }, Constructors: [{ constructorId: 'williams', name: 'Williams' }] },
-    { position: '10', points: '75', Driver: { driverId: 'ocon', givenName: 'Esteban', familyName: 'Ocon', nationality: 'French', code: 'OCO', permanentNumber: '31' }, Constructors: [{ constructorId: 'haas', name: 'Haas F1 Team' }] },
-    { position: '11', points: '65', Driver: { driverId: 'gasly', givenName: 'Pierre', familyName: 'Gasly', nationality: 'French', code: 'GAS', permanentNumber: '10' }, Constructors: [{ constructorId: 'alpine', name: 'Alpine' }] },
-    { position: '12', points: '55', Driver: { driverId: 'stroll', givenName: 'Lance', familyName: 'Stroll', nationality: 'Canadian', code: 'STR', permanentNumber: '18' }, Constructors: [{ constructorId: 'aston_martin', name: 'Aston Martin' }] },
-    { position: '13', points: '50', Driver: { driverId: 'antonelli', givenName: 'Andrea Kimi', familyName: 'Antonelli', nationality: 'Italian', code: 'ANT', permanentNumber: '12' }, Constructors: [{ constructorId: 'mercedes', name: 'Mercedes' }] },
-    { position: '14', points: '45', Driver: { driverId: 'bearman', givenName: 'Oliver', familyName: 'Bearman', nationality: 'British', code: 'BEA', permanentNumber: '87' }, Constructors: [{ constructorId: 'haas', name: 'Haas F1 Team' }] },
-    { position: '15', points: '40', Driver: { driverId: 'hadjar', givenName: 'Isack', familyName: 'Hadjar', nationality: 'French', code: 'HAD', permanentNumber: '6' }, Constructors: [{ constructorId: 'rb', name: 'Racing Bulls' }] },
-    { position: '16', points: '35', Driver: { driverId: 'lawson', givenName: 'Liam', familyName: 'Lawson', nationality: 'New Zealander', code: 'LAW', permanentNumber: '30' }, Constructors: [{ constructorId: 'rb', name: 'Racing Bulls' }] },
-    { position: '17', points: '30', Driver: { driverId: 'albon', givenName: 'Alexander', familyName: 'Albon', nationality: 'Thai', code: 'ALB', permanentNumber: '23' }, Constructors: [{ constructorId: 'williams', name: 'Williams' }] },
-    { position: '18', points: '20', Driver: { driverId: 'bortoleto', givenName: 'Gabriel', familyName: 'Bortoleto', nationality: 'Brazilian', code: 'BOR', permanentNumber: '5' }, Constructors: [{ constructorId: 'kick_sauber', name: 'Kick Sauber' }] },
-    { position: '19', points: '15', Driver: { driverId: 'hulkenberg', givenName: 'Nico', familyName: 'Hulkenberg', nationality: 'German', code: 'HUL', permanentNumber: '27' }, Constructors: [{ constructorId: 'kick_sauber', name: 'Kick Sauber' }] },
-    { position: '20', points: '8', Driver: { driverId: 'doohan', givenName: 'Jack', familyName: 'Doohan', nationality: 'Australian', code: 'DOO', permanentNumber: '7' }, Constructors: [{ constructorId: 'alpine', name: 'Alpine' }] },
+    { position: '1', points: '423', Driver: { driverId: 'norris', givenName: 'Lando', familyName: 'Norris', nationality: 'British', code: 'NOR', permanentNumber: '4' }, Constructors: [{ constructorId: 'mclaren', name: 'McLaren' }] },
+    { position: '2', points: '421', Driver: { driverId: 'max_verstappen', givenName: 'Max', familyName: 'Verstappen', nationality: 'Dutch', code: 'VER', permanentNumber: '1' }, Constructors: [{ constructorId: 'red_bull', name: 'Red Bull Racing' }] },
+    { position: '3', points: '410', Driver: { driverId: 'piastri', givenName: 'Oscar', familyName: 'Piastri', nationality: 'Australian', code: 'PIA', permanentNumber: '81' }, Constructors: [{ constructorId: 'mclaren', name: 'McLaren' }] },
+    { position: '4', points: '319', Driver: { driverId: 'russell', givenName: 'George', familyName: 'Russell', nationality: 'British', code: 'RUS', permanentNumber: '63' }, Constructors: [{ constructorId: 'mercedes', name: 'Mercedes' }] },
+    { position: '5', points: '242', Driver: { driverId: 'leclerc', givenName: 'Charles', familyName: 'Leclerc', nationality: 'Monegasque', code: 'LEC', permanentNumber: '16' }, Constructors: [{ constructorId: 'ferrari', name: 'Ferrari' }] },
+    { position: '6', points: '156', Driver: { driverId: 'hamilton', givenName: 'Lewis', familyName: 'Hamilton', nationality: 'British', code: 'HAM', permanentNumber: '44' }, Constructors: [{ constructorId: 'ferrari', name: 'Ferrari' }] },
+    { position: '7', points: '150', Driver: { driverId: 'antonelli', givenName: 'Andrea Kimi', familyName: 'Antonelli', nationality: 'Italian', code: 'ANT', permanentNumber: '12' }, Constructors: [{ constructorId: 'mercedes', name: 'Mercedes' }] },
+    { position: '8', points: '73', Driver: { driverId: 'albon', givenName: 'Alexander', familyName: 'Albon', nationality: 'Thai', code: 'ALB', permanentNumber: '23' }, Constructors: [{ constructorId: 'williams', name: 'Williams' }] },
+    { position: '9', points: '64', Driver: { driverId: 'sainz', givenName: 'Carlos', familyName: 'Sainz', nationality: 'Spanish', code: 'SAI', permanentNumber: '55' }, Constructors: [{ constructorId: 'williams', name: 'Williams' }] },
+    { position: '10', points: '56', Driver: { driverId: 'alonso', givenName: 'Fernando', familyName: 'Alonso', nationality: 'Spanish', code: 'ALO', permanentNumber: '14' }, Constructors: [{ constructorId: 'aston_martin', name: 'Aston Martin' }] },
+    { position: '11', points: '51', Driver: { driverId: 'hulkenberg', givenName: 'Nico', familyName: 'Hulkenberg', nationality: 'German', code: 'HUL', permanentNumber: '27' }, Constructors: [{ constructorId: 'kick_sauber', name: 'Kick Sauber' }] },
+    { position: '12', points: '51', Driver: { driverId: 'hadjar', givenName: 'Isack', familyName: 'Hadjar', nationality: 'French', code: 'HAD', permanentNumber: '6' }, Constructors: [{ constructorId: 'rb', name: 'Racing Bulls' }] },
+    { position: '13', points: '41', Driver: { driverId: 'bearman', givenName: 'Oliver', familyName: 'Bearman', nationality: 'British', code: 'BEA', permanentNumber: '87' }, Constructors: [{ constructorId: 'haas', name: 'Haas F1 Team' }] },
+    { position: '14', points: '38', Driver: { driverId: 'lawson', givenName: 'Liam', familyName: 'Lawson', nationality: 'New Zealander', code: 'LAW', permanentNumber: '30' }, Constructors: [{ constructorId: 'rb', name: 'Racing Bulls' }] },
+    { position: '15', points: '38', Driver: { driverId: 'ocon', givenName: 'Esteban', familyName: 'Ocon', nationality: 'French', code: 'OCO', permanentNumber: '31' }, Constructors: [{ constructorId: 'haas', name: 'Haas F1 Team' }] },
+    { position: '16', points: '33', Driver: { driverId: 'stroll', givenName: 'Lance', familyName: 'Stroll', nationality: 'Canadian', code: 'STR', permanentNumber: '18' }, Constructors: [{ constructorId: 'aston_martin', name: 'Aston Martin' }] },
+    { position: '17', points: '33', Driver: { driverId: 'tsunoda', givenName: 'Yuki', familyName: 'Tsunoda', nationality: 'Japanese', code: 'TSU', permanentNumber: '22' }, Constructors: [{ constructorId: 'red_bull', name: 'Red Bull Racing' }] },
+    { position: '18', points: '22', Driver: { driverId: 'gasly', givenName: 'Pierre', familyName: 'Gasly', nationality: 'French', code: 'GAS', permanentNumber: '10' }, Constructors: [{ constructorId: 'alpine', name: 'Alpine' }] },
+    { position: '19', points: '19', Driver: { driverId: 'bortoleto', givenName: 'Gabriel', familyName: 'Bortoleto', nationality: 'Brazilian', code: 'BOR', permanentNumber: '5' }, Constructors: [{ constructorId: 'kick_sauber', name: 'Kick Sauber' }] },
+    { position: '20', points: '0', Driver: { driverId: 'colapinto', givenName: 'Franco', familyName: 'Colapinto', nationality: 'Argentine', code: 'COL', permanentNumber: '99' }, Constructors: [{ constructorId: 'alpine', name: 'Alpine' }] },
+    { position: '21', points: '0', Driver: { driverId: 'doohan', givenName: 'Jack', familyName: 'Doohan', nationality: 'Australian', code: 'DOO', permanentNumber: '7' }, Constructors: [{ constructorId: 'alpine', name: 'Alpine' }] },
   ];
 }
 
 function getFallbackConstructorStandings() {
+  // 2025 Constructor Standings - Calculated from driver standings
+  // McLaren: Norris (423) + Piastri (410) = 833
+  // Mercedes: Russell (319) + Antonelli (150) = 469
+  // Red Bull: Verstappen (421) + Tsunoda (33) = 454
+  // Ferrari: Leclerc (242) + Hamilton (156) = 398
+  // Williams: Albon (73) + Sainz (64) = 137
+  // Racing Bulls: Hadjar (51) + Lawson (38) = 89
+  // Aston Martin: Alonso (56) + Stroll (33) = 89
+  // Haas: Bearman (41) + Ocon (38) = 79
+  // Kick Sauber: Hulkenberg (51) + Bortoleto (19) = 70
+  // Alpine: Gasly (22) + Colapinto (0) + Doohan (0) = 22
   return [
-    { position: '1', points: '640', Constructor: { constructorId: 'mclaren', name: 'McLaren' } },
-    { position: '2', points: '619', Constructor: { constructorId: 'ferrari', name: 'Ferrari' } },
-    { position: '3', points: '581', Constructor: { constructorId: 'red_bull', name: 'Red Bull Racing' } },
-    { position: '4', points: '446', Constructor: { constructorId: 'mercedes', name: 'Mercedes' } },
-    { position: '5', points: '92', Constructor: { constructorId: 'aston_martin', name: 'Aston Martin' } },
-    { position: '6', points: '59', Constructor: { constructorId: 'haas', name: 'Haas F1 Team' } },
-    { position: '7', points: '52', Constructor: { constructorId: 'rb', name: 'RB' } },
-    { position: '8', points: '49', Constructor: { constructorId: 'alpine', name: 'Alpine' } },
-    { position: '9', points: '17', Constructor: { constructorId: 'williams', name: 'Williams' } },
-    { position: '10', points: '4', Constructor: { constructorId: 'kick_sauber', name: 'Kick Sauber' } },
+    { position: '1', points: '833', Constructor: { constructorId: 'mclaren', name: 'McLaren' } },
+    { position: '2', points: '469', Constructor: { constructorId: 'mercedes', name: 'Mercedes' } },
+    { position: '3', points: '454', Constructor: { constructorId: 'red_bull', name: 'Red Bull Racing' } },
+    { position: '4', points: '398', Constructor: { constructorId: 'ferrari', name: 'Ferrari' } },
+    { position: '5', points: '137', Constructor: { constructorId: 'williams', name: 'Williams' } },
+    { position: '6', points: '89', Constructor: { constructorId: 'rb', name: 'Racing Bulls' } },
+    { position: '7', points: '89', Constructor: { constructorId: 'aston_martin', name: 'Aston Martin' } },
+    { position: '8', points: '79', Constructor: { constructorId: 'haas', name: 'Haas F1 Team' } },
+    { position: '9', points: '70', Constructor: { constructorId: 'kick_sauber', name: 'Kick Sauber' } },
+    { position: '10', points: '22', Constructor: { constructorId: 'alpine', name: 'Alpine' } },
   ];
 }
 
 function getFallbackNextRace() {
-  // Abu Dhabi GP - Final race of 2025 season
+  // Abu Dhabi GP was the final race of 2025 season (Dec 7, 2025)
+  // Season is now over - return first race of 2026 season
   return {
-    season: '2025',
-    round: '24',
-    raceName: 'Abu Dhabi Grand Prix',
-    date: '2025-12-07',
-    time: '13:00:00Z',
+    season: '2026',
+    round: '1',
+    raceName: 'Bahrain Grand Prix',
+    date: '2026-03-01',
+    time: '15:00:00Z',
     Circuit: {
-      circuitId: 'yas_marina',
-      circuitName: 'Yas Marina Circuit',
+      circuitId: 'bahrain',
+      circuitName: 'Bahrain International Circuit',
       Location: {
-        locality: 'Abu Dhabi',
-        country: 'UAE'
+        locality: 'Sakhir',
+        country: 'Bahrain'
       }
     }
   };
 }
 
-function getFallbackRaceResults() {
-  // Recent race results for prediction model - 2024 Season
+async function getFallbackRaceResults() {
+  // Recent race results for prediction model - 2025 Season (including Abu Dhabi GP)
+  const { getAll2025RaceResults } = await import('./season2025Data');
+  const seasonRaces = getAll2025RaceResults();
+  return seasonRaces.slice(-5);
+  
+  // Legacy 2024 data (kept for reference)
+  /*
   return [
     {
       raceName: 'Qatar Grand Prix',

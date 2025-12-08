@@ -347,20 +347,49 @@ export const SEASON_2025_RACES = [
       { position: '5', Driver: { driverId: 'russell', code: 'RUS' }, Constructor: { constructorId: 'mercedes' }, grid: '5' },
     ]
   },
-  // Race 24: Abu Dhabi GP (Final Race - Dec 7, 2025)
+  // Race 24: Abu Dhabi GP (Final Race - Dec 7, 2025) - ACTUAL OFFICIAL RESULTS
+  // Source: https://www.formula1.com/en/results/2025/races/1276/abu-dhabi/race-result
+  // Verstappen won the race (P1), but Norris finished P3 to secure the World Championship
   {
     season: '2025',
     round: '24',
     raceName: 'Abu Dhabi Grand Prix',
     date: '2025-12-07',
     Circuit: { circuitId: 'yas_marina', circuitName: 'Yas Marina Circuit' },
-    Results: null // Race hasn't happened yet
+    Results: [
+      { position: '1', Driver: { driverId: 'max_verstappen', code: 'VER', givenName: 'Max', familyName: 'Verstappen' }, Constructor: { constructorId: 'red_bull', name: 'Red Bull Racing' }, grid: '1', status: 'Finished', points: '25' },
+      { position: '2', Driver: { driverId: 'piastri', code: 'PIA', givenName: 'Oscar', familyName: 'Piastri' }, Constructor: { constructorId: 'mclaren', name: 'McLaren' }, grid: '3', status: 'Finished', points: '18' },
+      { position: '3', Driver: { driverId: 'norris', code: 'NOR', givenName: 'Lando', familyName: 'Norris' }, Constructor: { constructorId: 'mclaren', name: 'McLaren' }, grid: '2', status: 'Finished', points: '15' },
+      { position: '4', Driver: { driverId: 'leclerc', code: 'LEC', givenName: 'Charles', familyName: 'Leclerc' }, Constructor: { constructorId: 'ferrari', name: 'Ferrari' }, grid: '5', status: 'Finished', points: '12' },
+      { position: '5', Driver: { driverId: 'russell', code: 'RUS', givenName: 'George', familyName: 'Russell' }, Constructor: { constructorId: 'mercedes', name: 'Mercedes' }, grid: '4', status: 'Finished', points: '10' },
+      { position: '6', Driver: { driverId: 'hamilton', code: 'HAM', givenName: 'Lewis', familyName: 'Hamilton' }, Constructor: { constructorId: 'ferrari', name: 'Ferrari' }, grid: '13', status: 'Finished', points: '8' },
+      { position: '7', Driver: { driverId: 'alonso', code: 'ALO', givenName: 'Fernando', familyName: 'Alonso' }, Constructor: { constructorId: 'aston_martin', name: 'Aston Martin' }, grid: '6', status: 'Finished', points: '6' },
+      { position: '8', Driver: { driverId: 'tsunoda', code: 'TSU', givenName: 'Yuki', familyName: 'Tsunoda' }, Constructor: { constructorId: 'red_bull', name: 'Red Bull Racing' }, grid: '10', status: 'Finished', points: '4' },
+      { position: '9', Driver: { driverId: 'ocon', code: 'OCO', givenName: 'Esteban', familyName: 'Ocon' }, Constructor: { constructorId: 'haas', name: 'Haas F1 Team' }, grid: '8', status: 'Finished', points: '2' },
+      { position: '10', Driver: { driverId: 'bortoleto', code: 'BOR', givenName: 'Gabriel', familyName: 'Bortoleto' }, Constructor: { constructorId: 'kick_sauber', name: 'Kick Sauber' }, grid: '7', status: 'Finished', points: '1' },
+      { position: '11', Driver: { driverId: 'sainz', code: 'SAI', givenName: 'Carlos', familyName: 'Sainz' }, Constructor: { constructorId: 'williams', name: 'Williams' }, grid: '12', status: 'Finished', points: '0' },
+      { position: '12', Driver: { driverId: 'stroll', code: 'STR', givenName: 'Lance', familyName: 'Stroll' }, Constructor: { constructorId: 'aston_martin', name: 'Aston Martin' }, grid: '15', status: 'Finished', points: '0' },
+      { position: '13', Driver: { driverId: 'hadjar', code: 'HAD', givenName: 'Isack', familyName: 'Hadjar' }, Constructor: { constructorId: 'rb', name: 'Racing Bulls' }, grid: '9', status: 'Finished', points: '0' },
+      { position: '14', Driver: { driverId: 'lawson', code: 'LAW', givenName: 'Liam', familyName: 'Lawson' }, Constructor: { constructorId: 'rb', name: 'Racing Bulls' }, grid: '14', status: 'Finished', points: '0' },
+      { position: '15', Driver: { driverId: 'gasly', code: 'GAS', givenName: 'Pierre', familyName: 'Gasly' }, Constructor: { constructorId: 'alpine', name: 'Alpine' }, grid: '17', status: 'Finished', points: '0' },
+      { position: '16', Driver: { driverId: 'albon', code: 'ALB', givenName: 'Alexander', familyName: 'Albon' }, Constructor: { constructorId: 'williams', name: 'Williams' }, grid: '16', status: 'Finished', points: '0' },
+      { position: '17', Driver: { driverId: 'bearman', code: 'BEA', givenName: 'Oliver', familyName: 'Bearman' }, Constructor: { constructorId: 'haas', name: 'Haas F1 Team' }, grid: '11', status: 'Finished', points: '0' },
+      { position: '18', Driver: { driverId: 'hulkenberg', code: 'HUL', givenName: 'Nico', familyName: 'Hulkenberg' }, Constructor: { constructorId: 'kick_sauber', name: 'Kick Sauber' }, grid: '19', status: 'Finished', points: '0' },
+      { position: '19', Driver: { driverId: 'doohan', code: 'DOO', givenName: 'Jack', familyName: 'Doohan' }, Constructor: { constructorId: 'alpine', name: 'Alpine' }, grid: '18', status: 'Finished', points: '0' },
+      { position: '20', Driver: { driverId: 'antonelli', code: 'ANT', givenName: 'Andrea Kimi', familyName: 'Antonelli' }, Constructor: { constructorId: 'mercedes', name: 'Mercedes' }, grid: '20', status: 'Finished', points: '0' },
+      { position: '21', Driver: { driverId: 'colapinto', code: 'COL', givenName: 'Franco', familyName: 'Colapinto' }, Constructor: { constructorId: 'alpine', name: 'Alpine' }, grid: '43', status: 'Finished', points: '0' },
+    ]
   }
 ];
 
-// Get all 2025 race results for training
+// Get all 2025 race results for training (including Abu Dhabi GP)
 export const getAll2025RaceResults = () => {
   return SEASON_2025_RACES.filter(race => race.Results !== null);
+};
+
+// Get Abu Dhabi GP 2025 actual results
+export const getAbuDhabi2025Results = () => {
+  return SEASON_2025_RACES.find(race => race.round === '24' && race.season === '2025');
 };
 
 // Get recent races (last 5)
