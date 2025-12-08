@@ -383,19 +383,19 @@ function getFallbackConstructorStandings() {
 
 function getFallbackNextRace() {
   // Abu Dhabi GP was the final race of 2025 season (Dec 7, 2025)
-  // Season is now over - return first race of 2026 season
+  // Next race: Barcelona in January 2026
   return {
     season: '2026',
     round: '1',
-    raceName: 'Bahrain Grand Prix',
-    date: '2026-03-01',
-    time: '15:00:00Z',
+    raceName: 'Spanish Grand Prix',
+    date: '2026-01-18',
+    time: '14:00:00Z',
     Circuit: {
-      circuitId: 'bahrain',
-      circuitName: 'Bahrain International Circuit',
+      circuitId: 'catalunya',
+      circuitName: 'Circuit de Barcelona-Catalunya',
       Location: {
-        locality: 'Sakhir',
-        country: 'Bahrain'
+        locality: 'Montmeló',
+        country: 'Spain'
       }
     }
   };
